@@ -1,4 +1,6 @@
 import * as React from 'react'
+import { useState } from 'react'
+import { useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo-hooks'
 import styled from 'styled-components'
@@ -36,8 +38,6 @@ const HEROES_QUERY = gql`
   }
 `
 
-interface IHeroIndexProps {}
-
 const HeroCardContainer = styled.div`
   display: flex;
   padding: 50px;
@@ -49,12 +49,28 @@ const HeroCardContainer = styled.div`
   }
 `
 
+const CarouselButton = styled.div`
+  background: blue;
+  height: 50px;
+  width: 50px;
+  margin-top: 20%;
+`
+interface IHeroIndexProps {}
+
+interface IHero {
+  name: string
+  imgUrl: string
+}
+
 const handleLoading = () => <div>Loading...</div>
 
 const handleError = (message: string) => <div>Error! {message}</div>
 
 export const HeroIndex: React.FC<IHeroIndexProps> = () => {
   const { data, error, loading } = useQuery(HEROES_QUERY)
+
+  // Create a separate state for carousel
+  const [heroIndex, setHeroIndex] = useState<Array<number>>([0, 1, 2])
 
   if (error) {
     return handleError(error.message)
@@ -64,7 +80,22 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
     return handleLoading()
   }
 
-  console.log(data)
+  function moveCarousel(direction: string): void {
+    let newHeroIndex: number[] = heroIndex
+
+    if (direction === 'right') {
+      newHeroIndex = heroIndex.map((index) => {
+        return index == data.heroes.length - 1 ? 0 : index + 1
+      })
+    } else {
+      newHeroIndex = heroIndex.map((index) => {
+        return index == 0 ? data.heroes.length - 1 : index - 1
+      })
+    }
+
+    setHeroIndex(newHeroIndex)
+  }
+
   return (
     <main>
       <TopBar />
@@ -82,9 +113,11 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
 
       {/** Improve this section. Data provided is defined on top in GraphQL query. You can decide what you use and what you dont't.*/}
       <HeroCardContainer>
-        {data.heroes.map((hero) => (
-          <HeroCard key={hero.name} {...hero} />
-        ))}
+        <CarouselButton onClick={() => moveCarousel('left')} />
+        <HeroCard {...data.heroes[heroIndex[0]]} />
+        <HeroCard {...data.heroes[heroIndex[1]]} />
+        <HeroCard {...data.heroes[heroIndex[2]]} />
+        <CarouselButton onClick={() => moveCarousel('right')} />
       </HeroCardContainer>
 
       <Footer />
