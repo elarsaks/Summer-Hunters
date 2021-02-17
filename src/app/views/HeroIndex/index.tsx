@@ -1,6 +1,5 @@
 import * as React from 'react'
 import { useState } from 'react'
-import { useEffect } from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo-hooks'
 import styled from 'styled-components'
@@ -38,29 +37,51 @@ const HEROES_QUERY = gql`
   }
 `
 
+interface IHeroIndexProps {}
+
 const HeroCardContainer = styled.div`
-  display: flex;
-  padding: 50px;
+  margin-left: auto;
+  margin-right: auto;
   align-self: center;
-  max-width: 1150px;
+  max-width: 1000px;
+  overflow: hidden;
   @media (min-width: 1400px) {
     margin-left: auto;
     margin-right: auto;
   }
 `
 
-const CarouselButton = styled.div`
-  background: blue;
-  height: 50px;
-  width: 50px;
-  margin-top: 20%;
+const ButtonWrapper = styled.div`
+  position: absolute;
+  margin-left: 5vw;
+  display: flex;
+  justify-content: space-between;
+  width: 90vw;
+  margin-top: 290px;
+  font-size: 50px;
+  font-weight: 400;
 `
-interface IHeroIndexProps {}
 
-interface IHero {
-  name: string
-  imgUrl: string
+const CarouselButton = styled.div`
+  margin-top: -20px;
+  ${ButtonWrapper}:hover & {
+    cursor: pointer;
+  }
+`
+
+interface SliderProps {
+  background: string
+  marginLeft: string
 }
+
+const Slider = styled.div<SliderProps>`
+  margin-left: ${(p) => p.marginLeft};
+  display: flex;
+  width: 1750px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  transition: 0.4s;
+`
 
 const handleLoading = () => <div>Loading...</div>
 
@@ -71,6 +92,7 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
 
   // Create a separate state for carousel
   const [heroIndex, setHeroIndex] = useState<Array<number>>([0, 1, 2])
+  const [sliderPosition, setSliderPosition] = useState<number>(-50)
 
   if (error) {
     return handleError(error.message)
@@ -84,10 +106,12 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
     let newHeroIndex: number[] = heroIndex
 
     if (direction === 'right') {
+      setSliderPosition(sliderPosition + 350)
       newHeroIndex = heroIndex.map((index) => {
         return index == data.heroes.length - 1 ? 0 : index + 1
       })
     } else {
+      setSliderPosition(sliderPosition - 350)
       newHeroIndex = heroIndex.map((index) => {
         return index == 0 ? data.heroes.length - 1 : index - 1
       })
@@ -100,26 +124,28 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
     <main>
       <TopBar />
       <Hero />
-      <Section
-        heading={'Hunter Index'}
-        paragraph={`
-          Professor Hoax gave us this Hunter Index -tool 
-          so we can see how our heroes manage against evildoers. 
-          Unfortunately he forgot to implement their HeroCards. 
-          It's your job to finish his work before we can continue
-          on our journey together!
-        `}
-      />
+      {/** TODO: Create some header here */}
 
-      {/** Improve this section. Data provided is defined on top in GraphQL query. You can decide what you use and what you dont't.*/}
+      <ButtonWrapper>
+        <CarouselButton onClick={() => moveCarousel('left')}>
+          {'<'}
+        </CarouselButton>
+        <CarouselButton onClick={() => moveCarousel('right')}>
+          {'>'}
+        </CarouselButton>
+      </ButtonWrapper>
+
       <HeroCardContainer>
-        <CarouselButton onClick={() => moveCarousel('left')} />
-        <HeroCard {...data.heroes[heroIndex[0]]} />
-        <HeroCard {...data.heroes[heroIndex[1]]} />
-        <HeroCard {...data.heroes[heroIndex[2]]} />
-        <CarouselButton onClick={() => moveCarousel('right')} />
+        <Slider background='blue' marginLeft={sliderPosition + 'px'}>
+          <HeroCard {...data.heroes[heroIndex[2]]} />
+          <HeroCard {...data.heroes[2]} />
+          <HeroCard {...data.heroes[0]} />
+          <HeroCard {...data.heroes[1]} />
+          <HeroCard {...data.heroes[2]} />
+          <HeroCard {...data.heroes[0]} />
+          <HeroCard {...data.heroes[heroIndex[0]]} />
+        </Slider>
       </HeroCardContainer>
-
       <Footer />
     </main>
   )
