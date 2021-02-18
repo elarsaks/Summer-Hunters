@@ -75,8 +75,8 @@ interface BackSideProps {
 
 const Back: React.FC<BackSideProps> = ({
   attributes,
-  renderAttributes,
   backStory,
+  renderAttributes,
   skills,
 }) => {
   function createAttributesList() {

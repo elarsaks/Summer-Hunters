@@ -67,7 +67,15 @@ export const HeroCard: React.FC<IHeroCardProps> = ({
 
   function flipCard(Event) {
     Event.currentTarget.classList.toggle('flipped')
-    setRenderAttributes(!renderAttributes)
+
+    // TODO: Better way to handle loading bars
+    if (renderAttributes) {
+      setTimeout(() => {
+        setRenderAttributes(!renderAttributes)
+      }, 300)
+    } else {
+      setRenderAttributes(!renderAttributes)
+    }
   }
 
   return (
