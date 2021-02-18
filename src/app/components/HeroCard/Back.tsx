@@ -38,37 +38,36 @@ interface BackSideProps {
 }
 
 const Back: React.FC<BackSideProps> = ({ renderAttributes, attributes }) => {
+  let attributesList: any = []
+  let wantedAttributes: string[] = [
+    'strength',
+    'intelligence',
+    'stamina',
+    'agility',
+    'speed',
+  ]
+
+  for (const [key, value] of Object.entries(attributes)) {
+    const wanted = wantedAttributes.find((attr) => attr == key)
+
+    if (wanted) {
+      attributesList.push(
+        <Attribute
+          attribute={key}
+          renderAttributes={renderAttributes}
+          value={value}
+          key={key}
+        />
+      )
+    }
+  }
+
   return (
     <BackSide>
       <ContentContainer>
-        {' '}
         <Header>Skills:</Header>
         <Header>Attributes:</Header>
-        <Attribute
-          attribute='Strength'
-          renderAttributes={renderAttributes}
-          value={attributes.strength}
-        />
-        <Attribute
-          attribute='Intelligence'
-          renderAttributes={renderAttributes}
-          value={attributes.intelligence}
-        />
-        <Attribute
-          attribute='Stamina'
-          renderAttributes={renderAttributes}
-          value={attributes.stamina}
-        />
-        <Attribute
-          attribute='Agility'
-          renderAttributes={renderAttributes}
-          value={attributes.agility}
-        />
-        <Attribute
-          attribute='Speed'
-          renderAttributes={renderAttributes}
-          value={attributes.speed}
-        />
+        {attributesList}
       </ContentContainer>
     </BackSide>
   )

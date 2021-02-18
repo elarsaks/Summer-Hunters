@@ -41,9 +41,11 @@ const Attribute: React.FC<AttributeProps> = ({
 }) => {
   return (
     <AttributeContainer>
-      {attribute} {value + '/100'}
+      {attribute} {`${value} / ${value > 100 ? '1000' : '100'}`}
       <AttributeBarContainer>
-        {renderAttributes && <AttributeBar value={value} />}
+        {renderAttributes && (
+          <AttributeBar value={value > 100 ? value / 10 : value} />
+        )}
       </AttributeBarContainer>
     </AttributeContainer>
   )

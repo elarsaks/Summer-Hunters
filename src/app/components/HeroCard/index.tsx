@@ -55,7 +55,6 @@ export const HeroCard: React.FC<IHeroCardProps> = ({
   function flipCard(Event) {
     Event.currentTarget.classList.toggle('flipped')
     setRenderAttributes(!renderAttributes)
-    console.log(renderAttributes)
   }
 
   return (
