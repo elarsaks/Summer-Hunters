@@ -6,7 +6,6 @@ import styled from 'styled-components'
 
 import { TopBar } from '../../components/TopBar'
 import { Hero } from '../../components/Hero'
-import { Section } from '../../components/Section'
 import { Footer } from '../../components/Footer'
 import { HeroCard } from '../../components/HeroCard'
 
@@ -43,7 +42,7 @@ const HeroCardContainer = styled.div`
   margin-left: auto;
   margin-right: auto;
   align-self: center;
-  max-width: 1000px;
+  max-width: 1050px;
   overflow: hidden;
   @media (min-width: 1400px) {
     margin-left: auto;
@@ -60,9 +59,15 @@ const ButtonWrapper = styled.div`
   margin-top: 290px;
   font-size: 50px;
   font-weight: 400;
+  z-index: 0;
 `
 
-const CarouselButton = styled.div`
+interface SliderButtonProps {
+  isActive: boolean
+}
+
+const CarouselButton = styled.div<SliderButtonProps>`
+  color: ${(props) => (props.isActive ? 'black' : 'gray')};
   margin-top: -20px;
   ${ButtonWrapper}:hover & {
     cursor: pointer;
@@ -91,8 +96,18 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
   const { data, error, loading } = useQuery(HEROES_QUERY)
 
   // Create a separate state for carousel
-  const [heroIndex, setHeroIndex] = useState<Array<number>>([0, 1, 2])
-  const [sliderPosition, setSliderPosition] = useState<number>(-50)
+  const [heroIndex, setHeroIndex] = useState<Array<number>>([
+    0,
+    1,
+    2,
+    0,
+    1,
+    2,
+    0,
+    1,
+    2,
+  ])
+  const [sliderPosition, setSliderPosition] = useState<number>(-2100)
 
   if (error) {
     return handleError(error.message)
@@ -102,19 +117,30 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
     return handleLoading()
   }
 
+  // TODO: clean up this madness
   function moveCarousel(direction: string): void {
     let newHeroIndex: number[] = heroIndex
 
-    if (direction === 'right') {
+    function moveLeft() {
       setSliderPosition(sliderPosition + 350)
-      newHeroIndex = heroIndex.map((index) => {
-        return index == data.heroes.length - 1 ? 0 : index + 1
-      })
-    } else {
+      let next: number = newHeroIndex[0] == 0 ? 2 : newHeroIndex[0] - 1
+      newHeroIndex.unshift(next)
+    }
+
+    function moveRight() {
       setSliderPosition(sliderPosition - 350)
-      newHeroIndex = heroIndex.map((index) => {
-        return index == 0 ? data.heroes.length - 1 : index - 1
-      })
+      let prev: number =
+        newHeroIndex[newHeroIndex.length - 1] == 2
+          ? 0
+          : newHeroIndex[newHeroIndex.length - 1] + 1
+
+      newHeroIndex.push(prev)
+    }
+
+    if (direction === 'left' && sliderPosition < 0) {
+      moveLeft()
+    } else if (direction === 'right' && sliderPosition > -3150) {
+      moveRight()
     }
 
     setHeroIndex(newHeroIndex)
@@ -124,26 +150,27 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
     <main>
       <TopBar />
       <Hero />
-      {/** TODO: Create some header here */}
 
       <ButtonWrapper>
-        <CarouselButton onClick={() => moveCarousel('left')}>
+        <CarouselButton
+          isActive={sliderPosition < 0}
+          onClick={() => moveCarousel('left')}
+        >
           {'<'}
         </CarouselButton>
-        <CarouselButton onClick={() => moveCarousel('right')}>
+        <CarouselButton
+          isActive={sliderPosition > -3150}
+          onClick={() => moveCarousel('right')}
+        >
           {'>'}
         </CarouselButton>
       </ButtonWrapper>
 
       <HeroCardContainer>
         <Slider background='blue' marginLeft={sliderPosition + 'px'}>
-          <HeroCard {...data.heroes[heroIndex[2]]} />
-          <HeroCard {...data.heroes[2]} />
-          <HeroCard {...data.heroes[0]} />
-          <HeroCard {...data.heroes[1]} />
-          <HeroCard {...data.heroes[2]} />
-          <HeroCard {...data.heroes[0]} />
-          <HeroCard {...data.heroes[heroIndex[0]]} />
+          {heroIndex.map((heroIndex, index) => (
+            <HeroCard key={index} {...data.heroes[heroIndex]} />
+          ))}
         </Slider>
       </HeroCardContainer>
       <Footer />
