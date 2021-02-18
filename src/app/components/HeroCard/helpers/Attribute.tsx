@@ -25,20 +25,25 @@ const AttributeBar = styled.div<AttributeBarProps>`
   animation-name: ${loadBar((p) => p.value)};
   width: ${(p) => p.value + '%'};
   max-width: ${(p) => p.value + '%'};
-  animation-duration: 10s;
+  animation-duration: 2s;
   background: hsl(${(p) => p.value}, 98%, 50%);
 `
 
 interface AttributeProps {
   attribute: string
   value: number
+  renderAttributes: boolean
 }
-const Attribute: React.FC<AttributeProps> = ({ attribute, value }) => {
+const Attribute: React.FC<AttributeProps> = ({
+  attribute,
+  value,
+  renderAttributes,
+}) => {
   return (
     <AttributeContainer>
       {attribute} {value + '/100'}
       <AttributeBarContainer>
-        <AttributeBar value={value} />
+        {renderAttributes && <AttributeBar value={value} />}
       </AttributeBarContainer>
     </AttributeContainer>
   )

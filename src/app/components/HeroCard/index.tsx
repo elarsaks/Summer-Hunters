@@ -35,12 +35,20 @@ interface IHeroCardProps {
   name: string
   imgUrl: string
   description: string
+  attributes: {
+    strength: number
+    intelligence: number
+    stamina: number
+    agility: number
+    speed: number
+  }
 }
 
 export const HeroCard: React.FC<IHeroCardProps> = ({
   name,
   imgUrl,
   description,
+  attributes,
 }) => {
   const [renderAttributes, setRenderAttributes] = useState<boolean>(false)
 
@@ -54,7 +62,7 @@ export const HeroCard: React.FC<IHeroCardProps> = ({
     <CardWrapper>
       <Card onClick={flipCard}>
         <Front name={name} imgUrl={imgUrl} description={description} />
-        <Back renderAttributes={renderAttributes} />
+        <Back renderAttributes={renderAttributes} attributes={attributes} />
       </Card>
     </CardWrapper>
   )

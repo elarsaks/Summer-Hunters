@@ -28,16 +28,47 @@ const Header = styled.div`
 
 interface BackSideProps {
   renderAttributes: boolean
+  attributes: {
+    strength: number
+    intelligence: number
+    stamina: number
+    agility: number
+    speed: number
+  }
 }
 
-const Back: React.FC<BackSideProps> = ({ renderAttributes }) => {
+const Back: React.FC<BackSideProps> = ({ renderAttributes, attributes }) => {
   return (
     <BackSide>
       <ContentContainer>
         {' '}
         <Header>Skills:</Header>
         <Header>Attributes:</Header>
-        {renderAttributes && <Attribute attribute='Strength' value={60} />}
+        <Attribute
+          attribute='Strength'
+          renderAttributes={renderAttributes}
+          value={attributes.strength}
+        />
+        <Attribute
+          attribute='Intelligence'
+          renderAttributes={renderAttributes}
+          value={attributes.intelligence}
+        />
+        <Attribute
+          attribute='Stamina'
+          renderAttributes={renderAttributes}
+          value={attributes.stamina}
+        />
+        <Attribute
+          attribute='Agility'
+          renderAttributes={renderAttributes}
+          value={attributes.agility}
+        />
+        <Attribute
+          attribute='Speed'
+          renderAttributes={renderAttributes}
+          value={attributes.speed}
+        />
       </ContentContainer>
     </BackSide>
   )
