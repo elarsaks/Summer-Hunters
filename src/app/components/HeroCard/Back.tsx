@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import * as React from 'react'
 import Attribute from './helpers/Attribute'
+import Skill from './helpers/Skill'
 
 const BackSide = styled.div`
   position: absolute;
@@ -26,7 +27,9 @@ const BackSide = styled.div`
   }
 `
 const ContentContainer = styled.div`
-  padding: 20px;
+  padding-left: 20px;
+  padding-right: 20px;
+  padding-bottom: 20px;
 `
 
 const Header = styled.div`
@@ -34,7 +37,7 @@ const Header = styled.div`
   font-weight: 600;
   border-bottom: 1px solid white;
   margin-bottom: 7px;
-  margin-top: 7px;
+  margin-top: 20px;
 `
 
 const Text = styled.p`
@@ -70,34 +73,36 @@ const Back: React.FC<BackSideProps> = ({
   attributes,
   skills,
 }) => {
-  let attributesList: any = []
-  let wantedAttributes: string[] = [
-    'strength',
-    'intelligence',
-    'stamina',
-    'agility',
-    'speed',
-  ]
+  function createAttributesList() {
+    let attributesList: any = []
+    let wantedAttributes: string[] = [
+      'strength',
+      'intelligence',
+      'stamina',
+      'agility',
+      'speed',
+    ]
 
-  for (const [key, value] of Object.entries(attributes)) {
-    const wanted = wantedAttributes.find((attr) => attr == key)
+    for (const [key, value] of Object.entries(attributes)) {
+      const wanted = wantedAttributes.find((attr) => attr == key)
 
-    if (wanted && typeof value == 'number') {
-      attributesList.push(
-        <Attribute
-          attribute={key}
-          renderAttributes={renderAttributes}
-          value={value}
-          key={key}
-        />
-      )
+      if (wanted && typeof value == 'number') {
+        attributesList.push(
+          <Attribute
+            attribute={key}
+            renderAttributes={renderAttributes}
+            value={value}
+            key={key}
+          />
+        )
+      }
     }
+    return attributesList
   }
+
   return (
     <BackSide>
       <ContentContainer>
-        <Header>Skills</Header>
-
         <Header>Vitals</Header>
         <Attribute
           attribute={'Healthpoints'}
@@ -117,7 +122,18 @@ const Back: React.FC<BackSideProps> = ({
         </Text>
 
         <Header>Attributes</Header>
-        {attributesList}
+        {createAttributesList()}
+
+        <Header>Skills</Header>
+        {skills.map((skill) => {
+          return (
+            <Skill
+              key={skill.name}
+              skill={skill}
+              renderAttributes={renderAttributes}
+            />
+          )
+        })}
       </ContentContainer>
     </BackSide>
   )

@@ -40,12 +40,21 @@ const Attribute: React.FC<AttributeProps> = ({
   value,
   renderAttributes,
 }) => {
-  const maxAttributes = (value: number): number =>
-    Math.pow(10, Math.ceil(Math.log10(value)))
+  const maxAttributes = (value: number): number => {
+    if (value < 100) {
+      return 100
+    } else if (value > 1000) {
+      return value
+    } else {
+      return Math.pow(10, Math.ceil(Math.log10(value)))
+    }
+  }
 
   return (
     <AttributeContainer>
-      {`${attribute.toUpperCase()}: ${value} / ${maxAttributes(value)}`}
+      {`${attribute.toUpperCase()}: ${value} / ${
+        value < 100 ? 100 : maxAttributes(value)
+      }`}
       <AttributeBarContainer>
         {renderAttributes && (
           <AttributeBar value={value > 100 ? value / 10 : value} />
