@@ -51,7 +51,6 @@ const Text = styled.p`
 `
 
 interface BackSideProps {
-  renderAttributes: boolean
   attributes: {
     strength: number
     intelligence: number
@@ -63,6 +62,8 @@ interface BackSideProps {
     resistance: string
     weakness: string
   }
+  backStory: string
+  renderAttributes: boolean
   skills: [
     {
       name: string
@@ -73,8 +74,9 @@ interface BackSideProps {
 }
 
 const Back: React.FC<BackSideProps> = ({
-  renderAttributes,
   attributes,
+  renderAttributes,
+  backStory,
   skills,
 }) => {
   function createAttributesList() {
@@ -131,6 +133,9 @@ const Back: React.FC<BackSideProps> = ({
             />
           )
         })}
+
+        <Header>BackStory</Header>
+        <Text>{backStory}</Text>
       </ContentContainer>
     </BackSide>
   )

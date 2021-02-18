@@ -45,6 +45,7 @@ interface IHeroCardProps {
     resistance: string
     weakness: string
   }
+  backStory: string
   skills: [
     {
       name: string
@@ -55,10 +56,11 @@ interface IHeroCardProps {
 }
 
 export const HeroCard: React.FC<IHeroCardProps> = ({
-  name,
-  imgUrl,
-  description,
   attributes,
+  backStory,
+  description,
+  imgUrl,
+  name,
   skills,
 }) => {
   const [renderAttributes, setRenderAttributes] = useState<boolean>(false)
@@ -76,6 +78,7 @@ export const HeroCard: React.FC<IHeroCardProps> = ({
           renderAttributes={renderAttributes}
           attributes={attributes}
           skills={skills}
+          backStory={backStory}
         />
       </Card>
     </CardWrapper>
