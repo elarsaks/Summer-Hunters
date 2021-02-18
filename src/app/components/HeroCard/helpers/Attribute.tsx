@@ -7,6 +7,7 @@ const AttributeContainer = styled.div``
 const AttributeBarContainer = styled.div`
   border: 1px solid white;
   width: 100%;
+  margin-bottom: 5px;
 `
 
 interface AttributeBarProps {
@@ -24,7 +25,7 @@ const AttributeBar = styled.div<AttributeBarProps>`
   padding: 0;
   animation-name: ${loadBar((p) => p.value)};
   width: ${(p) => p.value + '%'};
-  max-width: ${(p) => p.value + '%'};
+  max-width: 100%;
   animation-duration: 2s;
   background: hsl(${(p) => p.value}, 98%, 50%);
 `
@@ -39,9 +40,12 @@ const Attribute: React.FC<AttributeProps> = ({
   value,
   renderAttributes,
 }) => {
+  const maxAttributes = (value: number): number =>
+    Math.pow(10, Math.ceil(Math.log10(value)))
+
   return (
     <AttributeContainer>
-      {attribute} {`${value} / ${value > 100 ? '1000' : '100'}`}
+      {`${attribute.toUpperCase()}: ${value} / ${maxAttributes(value)}`}
       <AttributeBarContainer>
         {renderAttributes && (
           <AttributeBar value={value > 100 ? value / 10 : value} />

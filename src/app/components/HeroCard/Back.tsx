@@ -16,6 +16,14 @@ const BackSide = styled.div`
   transform: rotateY(-180deg);
   color: #fff;
   border: 2px solid #fcfc03;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  box-sizing: content-box;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  ::-webkit-scrollbar {
+    display: none;
+  }
 `
 const ContentContainer = styled.div`
   padding: 20px;
@@ -24,6 +32,17 @@ const ContentContainer = styled.div`
 const Header = styled.div`
   text-transform: uppercase;
   font-weight: 600;
+  border-bottom: 1px solid white;
+  margin-bottom: 7px;
+  margin-top: 7px;
+`
+
+const Text = styled.p`
+  padding: 0;
+  margin: 0;
+  & > a {
+    color: yellow;
+  }
 `
 
 interface BackSideProps {
@@ -34,10 +53,23 @@ interface BackSideProps {
     stamina: number
     agility: number
     speed: number
+    resistance: string
+    weakness: string
   }
+  skills: [
+    {
+      name: string
+      damage: number
+      element: string
+    }
+  ]
 }
 
-const Back: React.FC<BackSideProps> = ({ renderAttributes, attributes }) => {
+const Back: React.FC<BackSideProps> = ({
+  renderAttributes,
+  attributes,
+  skills,
+}) => {
   let attributesList: any = []
   let wantedAttributes: string[] = [
     'strength',
@@ -50,7 +82,7 @@ const Back: React.FC<BackSideProps> = ({ renderAttributes, attributes }) => {
   for (const [key, value] of Object.entries(attributes)) {
     const wanted = wantedAttributes.find((attr) => attr == key)
 
-    if (wanted) {
+    if (wanted && typeof value == 'number') {
       attributesList.push(
         <Attribute
           attribute={key}
@@ -61,12 +93,30 @@ const Back: React.FC<BackSideProps> = ({ renderAttributes, attributes }) => {
       )
     }
   }
-
   return (
     <BackSide>
       <ContentContainer>
-        <Header>Skills:</Header>
-        <Header>Attributes:</Header>
+        <Header>Skills</Header>
+
+        <Header>Vitals</Header>
+        <Attribute
+          attribute={'Healthpoints'}
+          renderAttributes={renderAttributes}
+          value={attributes['healthpoints']}
+        />
+        <Attribute
+          attribute={'Mana'}
+          renderAttributes={renderAttributes}
+          value={attributes['mana']}
+        />
+        <Text>
+          Resistance: <a>{attributes.resistance.toUpperCase()}</a>
+        </Text>
+        <Text>
+          Weakness: <a>{attributes.weakness.toUpperCase()}</a>
+        </Text>
+
+        <Header>Attributes</Header>
         {attributesList}
       </ContentContainer>
     </BackSide>
