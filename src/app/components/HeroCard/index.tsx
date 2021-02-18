@@ -12,7 +12,6 @@ const CardWrapper = styled.div`
 `
 
 const Card = styled.div`
-  overflow: hidden;
   &.flipped {
     & > div:first-of-type {
       // Front side of the card

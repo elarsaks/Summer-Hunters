@@ -2,6 +2,7 @@ import styled from 'styled-components'
 import * as React from 'react'
 import Attribute from './helpers/Attribute'
 import Skill from './helpers/Skill'
+import Vital from './helpers/Vital'
 
 const BackSide = styled.div`
   position: absolute;
@@ -38,6 +39,7 @@ const Header = styled.div`
   border-bottom: 1px solid white;
   margin-bottom: 7px;
   margin-top: 20px;
+  letter-spacing: 5px;
 `
 
 const Text = styled.p`
@@ -54,6 +56,8 @@ interface BackSideProps {
     strength: number
     intelligence: number
     stamina: number
+    healthpoints: number
+    mana: number
     agility: number
     speed: number
     resistance: string
@@ -104,22 +108,15 @@ const Back: React.FC<BackSideProps> = ({
     <BackSide>
       <ContentContainer>
         <Header>Vitals</Header>
-        <Attribute
-          attribute={'Healthpoints'}
+        <Vital
           renderAttributes={renderAttributes}
-          value={attributes['healthpoints']}
+          vital={{
+            healthpoints: attributes.healthpoints,
+            mana: attributes.mana,
+            resistance: attributes.resistance,
+            weakness: attributes.weakness,
+          }}
         />
-        <Attribute
-          attribute={'Mana'}
-          renderAttributes={renderAttributes}
-          value={attributes['mana']}
-        />
-        <Text>
-          Resistance: <a>{attributes.resistance.toUpperCase()}</a>
-        </Text>
-        <Text>
-          Weakness: <a>{attributes.weakness.toUpperCase()}</a>
-        </Text>
 
         <Header>Attributes</Header>
         {createAttributesList()}
