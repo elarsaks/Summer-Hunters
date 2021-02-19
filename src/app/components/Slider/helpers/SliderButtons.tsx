@@ -18,6 +18,9 @@ const ButtonWrapper = styled.div`
   @media (max-width: 1100px) {
     width: 98vw;
   }
+  @media (max-width: 500px) {
+    display: none;
+  }
 `
 
 interface ButtonProps {

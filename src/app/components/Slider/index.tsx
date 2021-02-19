@@ -14,6 +14,9 @@ const SliderOuterContainer = styled.div`
   @media (max-width: 1100px) {
     max-width: 350px;
   }
+  @media (max-width: 400px) {
+    max-width: 300px;
+  }
 `
 interface SliderInnerContainerProps {
   background: string
@@ -59,8 +62,13 @@ interface SliderProps {
 }
 
 const Slider: React.FC<SliderProps> = (heroes) => {
+  // Slider State
   const [heroIndex, setHeroIndex] = useState<Array<number>>([0, 1, 2, 0, 1])
   const [sliderPosition, setSliderPosition] = useState<number>(0)
+
+  // State for mobile touches
+  const [touchStart, setTouchStart] = React.useState(0)
+  const [touchEnd, setTouchEnd] = React.useState(0)
 
   function moveCarousel(direction: string): void {
     let newHeroIndex: number[] = heroIndex
@@ -90,6 +98,24 @@ const Slider: React.FC<SliderProps> = (heroes) => {
     setHeroIndex(newHeroIndex)
   }
 
+  function handleTouchStart(e) {
+    setTouchStart(e.targetTouches[0].clientX)
+  }
+
+  function handleTouchMove(e) {
+    setTouchEnd(e.targetTouches[0].clientX)
+  }
+
+  function handleTouchEnd() {
+    if (touchStart - touchEnd > 100) {
+      moveCarousel('right')
+    }
+
+    if (touchStart - touchEnd < -100) {
+      moveCarousel('left')
+    }
+  }
+
   return (
     <div>
       <SliderButtons
@@ -100,6 +126,9 @@ const Slider: React.FC<SliderProps> = (heroes) => {
         <SliderInnerContainer
           background='blue'
           marginLeft={sliderPosition + 'px'}
+          onTouchStart={(touchStartEvent) => handleTouchStart(touchStartEvent)}
+          onTouchMove={(touchMoveEvent) => handleTouchMove(touchMoveEvent)}
+          onTouchEnd={() => handleTouchEnd()}
         >
           {heroIndex.map((heroIndex, index) => (
             <HeroCard key={index} {...heroes.heroes[heroIndex]} />
