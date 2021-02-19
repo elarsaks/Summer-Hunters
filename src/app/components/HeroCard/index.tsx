@@ -11,7 +11,7 @@ const CardWrapper = styled.div`
   transition: 0.4s;
   z-index: 99;
   margin-bottom: 50px;
-  @media (min-width: px) {
+  @media (min-width: 768px) {
     &:hover {
       transform: scale(1.2);
       transition: 0.7s;
