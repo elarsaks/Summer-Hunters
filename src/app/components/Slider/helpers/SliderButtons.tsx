@@ -5,14 +5,14 @@ const ButtonWrapper = styled.div`
   overflow: hidden;
   font-size: 50px;
   font-weight: 400;
-  z-index: 99;
+  z-index: 9;
   left: 0;
   right: 0;
   position: absolute;
   margin-top: 290px;
   margin-left: auto;
   margin-right: auto;
-  width: 80vw;
+  width: 81vw;
   display: flex;
   justify-content: space-between;
 `

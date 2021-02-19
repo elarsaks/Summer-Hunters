@@ -9,6 +9,7 @@ const CardWrapper = styled.div`
   margin-left: 50px;
   margin-right: 50px;
   transition: 0.4s;
+  z-index: 99;
 `
 
 const Card = styled.div`

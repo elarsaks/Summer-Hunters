@@ -5,6 +5,7 @@ import styled from 'styled-components'
 
 import { TopBar } from '../../components/TopBar'
 import { Hero } from '../../components/Hero'
+import { Section } from '../../components/Section'
 import { Footer } from '../../components/Footer'
 import Slider from '../../components/Slider'
 
@@ -56,6 +57,16 @@ export const HeroIndex: React.FC<IHeroIndexProps> = () => {
     <main>
       <TopBar />
       <Hero />
+      <Section
+        heading={'Hunter Index'}
+        paragraph={`
+          Professor Hoax gave us this Hunter Index -tool 
+          so we can see how our heroes manage against evildoers. 
+          Unfortunately he forgot to implement their HeroCards. 
+          It's your job to finish his work before we can continue
+          on our journey together!
+        `}
+      />
       <Slider heroes={data.heroes} />
       <Footer />
     </main>
