@@ -26,6 +26,7 @@ const BackSide = styled.div`
   ::-webkit-scrollbar {
     display: none;
   }
+  cursor: pointer;
 `
 const ContentContainer = styled.div`
   padding-left: 20px;
