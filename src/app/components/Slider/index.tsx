@@ -15,7 +15,7 @@ const SliderOuterContainer = styled.div`
     max-width: 350px;
   }
   @media (max-width: 400px) {
-    max-width: 300px;
+    margin-left: -25px;
   }
 `
 interface SliderInnerContainerProps {
@@ -107,11 +107,11 @@ const Slider: React.FC<SliderProps> = (heroes) => {
   }
 
   function handleTouchEnd() {
-    if (touchStart - touchEnd > 100) {
+    if (touchStart - touchEnd > 150) {
       moveCarousel('right')
     }
 
-    if (touchStart - touchEnd < -100) {
+    if (touchStart - touchEnd < -150) {
       moveCarousel('left')
     }
   }

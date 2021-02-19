@@ -12,7 +12,7 @@ const ButtonWrapper = styled.div`
   margin-top: 290px;
   margin-left: auto;
   margin-right: auto;
-  width: 81vw;
+  width: 84vw;
   display: flex;
   justify-content: space-between;
   @media (max-width: 1100px) {

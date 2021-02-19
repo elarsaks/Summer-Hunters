@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 import * as React from 'react'
 
 const FrontSide = styled.div`
@@ -13,7 +13,30 @@ const FrontSide = styled.div`
   transition: all 0.7s ease-in-out;
   transform: rotateY(0deg);
   border: 2px solid;
+  overflow: hidden;
+
+  // Shine
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    background: rgba(255, 255, 255, 0.5);
+    width: 60px;
+    height: 100%;
+    top: 0;
+    filter: blur(30px);
+    transform: translateX(-100px) skewX(-15deg);
+  }
+
+  &:hover {
+    &::before {
+      transform: translateX(300px) skewX(-15deg);
+      transition: 0.7s;
+    }
+  }
 `
+
+const Shine = styled.div``
 
 const Image = styled.img`
   height: 250px;
@@ -24,11 +47,11 @@ const Image = styled.img`
   border-radius: 15px 15px 0px 0px;
   border-bottom: 1px solid;
 `
+
 const CardTextContainer = styled.div`
   padding: 5px;
   color: white;
 `
-
 interface FrontSideProps {
   name: string
   imgUrl: string
@@ -38,6 +61,7 @@ interface FrontSideProps {
 const Front: React.FC<FrontSideProps> = ({ name, imgUrl, description }) => {
   return (
     <FrontSide>
+      <Shine />
       <Image src={imgUrl} />
 
       <CardTextContainer>

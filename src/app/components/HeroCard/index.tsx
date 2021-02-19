@@ -10,6 +10,13 @@ const CardWrapper = styled.div`
   margin-right: 50px;
   transition: 0.4s;
   z-index: 99;
+  margin-bottom: 50px;
+  @media (min-width: px) {
+    &:hover {
+      transform: scale(1.2);
+      transition: 0.7s;
+  }
+  
 `
 
 const Card = styled.div`
