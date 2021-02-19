@@ -1,7 +1,6 @@
 import * as React from 'react'
 import gql from 'graphql-tag'
 import { useQuery } from 'react-apollo-hooks'
-import styled from 'styled-components'
 
 import { TopBar } from '../../components/TopBar'
 import { Hero } from '../../components/Hero'

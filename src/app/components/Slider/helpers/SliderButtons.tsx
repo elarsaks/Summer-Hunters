@@ -15,6 +15,9 @@ const ButtonWrapper = styled.div`
   width: 81vw;
   display: flex;
   justify-content: space-between;
+  @media (max-width: 1100px) {
+    width: 98vw;
+  }
 `
 
 interface ButtonProps {

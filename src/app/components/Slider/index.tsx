@@ -11,6 +11,9 @@ const SliderOuterContainer = styled.div`
   max-width: 1070px;
   margin-left: auto;
   margin-right: auto;
+  @media (max-width: 1100px) {
+    max-width: 350px;
+  }
 `
 interface SliderInnerContainerProps {
   background: string
@@ -56,11 +59,9 @@ interface SliderProps {
 }
 
 const Slider: React.FC<SliderProps> = (heroes) => {
-  // Create a separate state for carousel
   const [heroIndex, setHeroIndex] = useState<Array<number>>([0, 1, 2, 0, 1])
   const [sliderPosition, setSliderPosition] = useState<number>(0)
 
-  // TODO: clean up this madness
   function moveCarousel(direction: string): void {
     let newHeroIndex: number[] = heroIndex
 
