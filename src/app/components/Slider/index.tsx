@@ -5,13 +5,25 @@ import SliderButtons from './helpers/SliderButtons'
 import { HeroCard } from '../../components/HeroCard'
 
 const SliderOuterContainer = styled.div`
+  position: relative;
   padding: 5px;
   overflow: hidden;
-  width: 80vw;
+  max-width: 1070px;
+  margin-left: auto;
+  margin-right: auto;
 `
-const SliderInnerContainer = styled.div`
+interface SliderInnerContainerProps {
+  background: string
+  marginLeft: string
+}
+
+const SliderInnerContainer = styled.div<SliderInnerContainerProps>`
+  margin-left: ${(p) => p.marginLeft};
   display: flex;
-  padding: 5px;
+  width: 1750px;
+  padding-top: 50px;
+  padding-bottom: 50px;
+  transition: 0.4s;
 `
 
 interface SliderProps {
@@ -54,24 +66,23 @@ const Slider: React.FC<SliderProps> = (heroes) => {
 
     function moveLeft() {
       setSliderPosition(sliderPosition + 350)
-      /*
-      let next: number = newHeroIndex[0] == 0 ? 2 : newHeroIndex[0] - 1 
-      newHeroIndex.unshift(next)*/
     }
 
+    // Adds a new index into array, so that a new HeroCard component will be created.
+    // It is a bad solution, but I dont know how to implement circular array
     function moveRight() {
       setSliderPosition(sliderPosition - 350)
-      let prev: number =
+      let next: number =
         newHeroIndex[newHeroIndex.length - 1] == 2
           ? 0
           : newHeroIndex[newHeroIndex.length - 1] + 1
 
-      newHeroIndex.push(prev)
+      newHeroIndex.push(next)
     }
 
     if (direction === 'left' && sliderPosition < 0) {
       moveLeft()
-    } else if (direction === 'right' && sliderPosition > -3150) {
+    } else if (direction === 'right' && sliderPosition > -2100) {
       moveRight()
     }
 
@@ -79,14 +90,22 @@ const Slider: React.FC<SliderProps> = (heroes) => {
   }
 
   return (
-    <SliderOuterContainer>
-      <SliderInnerContainer>
-        <SliderButtons sliderPosition={0} />
-        {heroIndex.map((heroIndex, index) => (
-          <HeroCard key={index} {...heroes.heroes[heroIndex]} />
-        ))}
-      </SliderInnerContainer>
-    </SliderOuterContainer>
+    <div>
+      <SliderButtons
+        sliderPosition={sliderPosition}
+        moveCarousel={moveCarousel}
+      />
+      <SliderOuterContainer>
+        <SliderInnerContainer
+          background='blue'
+          marginLeft={sliderPosition + 'px'}
+        >
+          {heroIndex.map((heroIndex, index) => (
+            <HeroCard key={index} {...heroes.heroes[heroIndex]} />
+          ))}
+        </SliderInnerContainer>
+      </SliderOuterContainer>
+    </div>
   )
 }
 

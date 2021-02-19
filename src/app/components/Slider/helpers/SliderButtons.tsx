@@ -2,15 +2,19 @@ import styled from 'styled-components'
 import * as React from 'react'
 
 const ButtonWrapper = styled.div`
-  position: absolute;
-  margin-left: 0;
-  width: 90%;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 290px;
+  overflow: hidden;
   font-size: 50px;
   font-weight: 400;
-  z-index: 0;
+  z-index: 99;
+  left: 0;
+  right: 0;
+  position: absolute;
+  margin-top: 290px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 80vw;
+  display: flex;
+  justify-content: space-between;
 `
 
 interface ButtonProps {
@@ -27,20 +31,24 @@ const SliderButton = styled.div<ButtonProps>`
 
 interface SliderButtonsProps {
   sliderPosition: number
+  moveCarousel(direction: string): void
 }
 
-const SliderButtons: React.FC<SliderButtonsProps> = ({ sliderPosition }) => {
+const SliderButtons: React.FC<SliderButtonsProps> = ({
+  sliderPosition,
+  moveCarousel,
+}) => {
   return (
     <ButtonWrapper>
       <SliderButton
         isActive={sliderPosition < 0}
-        onClick={() => /* moveCarousel('left') */ {}}
+        onClick={() => moveCarousel('left')}
       >
         {'<'}
       </SliderButton>
       <SliderButton
-        isActive={sliderPosition > -3150}
-        onClick={() => /* moveCarousel('right') */ {}}
+        isActive={sliderPosition > -2100}
+        onClick={() => moveCarousel('right')}
       >
         {'>'}
       </SliderButton>
