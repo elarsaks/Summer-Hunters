@@ -140,8 +140,8 @@ export const seedDatabase = async () => {
   await heroRepository.save(heroes)
 
   const vault = vaultRepository.create({
-    privateGoods: 'This for everyone.',
-    publicGoods: 'This for Users only.',
+    publicGoods: 'This for everyone.',
+    privateGoods: 'This for Users only.',
     exclusiveGoods: 'This is for Admins and Users only.',
     treasures:
       'This should be behind authentication.  ✧･ﾟ: *✧･ﾟ:* Loads of gold.　 *:･ﾟ✧*:･ﾟ✧',
