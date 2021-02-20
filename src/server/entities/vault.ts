@@ -19,16 +19,18 @@ export class Vault {
   @Column()
   publicGoods: string
 
-  //@Authorized()
+  @Authorized('PRIVATE')
   @Field()
   @Column()
   privateGoods: string
 
+  @Authorized('PRIVATE', 'EXCLUSIVE')
   @Field()
   @Column()
   exclusiveGoods: string
 
   //☆.。.:*・°☆.。.:*・°☆.。.:*・°☆.。.:*
+  @Authorized('PRIVATE', 'EXCLUSIVE', 'SECRET')
   @Field()
   @Column()
   treasures: string

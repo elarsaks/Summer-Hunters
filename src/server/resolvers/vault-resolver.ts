@@ -17,14 +17,30 @@ export class VaultResolver {
     return this.vaultRepository.findOne()
   }
 
-  /*
   @Authorized()
   @Query((returns) => Vault)
   authedQuery(): Promise<Vault> {
     return this.vaultRepository.findOne()
   }
 
- 
+  @Authorized()
+  @Query((returns) => Vault)
+  privateQuery(): Promise<Vault> {
+    return this.vaultRepository.findOne()
+  }
+
+  @Authorized()
+  @Query((returns) => Vault)
+  exclusiveQuery(): Promise<Vault> {
+    return this.vaultRepository.findOne()
+  }
+
+  @Query((returns) => Vault)
+  secretQuery(): Promise<Vault> {
+    return this.vaultRepository.findOne()
+  }
+
+  /*
   @Query((returns) => Vault)
   vault(): Promise<Vault> {
     return this.vaultRepository.findOne()
