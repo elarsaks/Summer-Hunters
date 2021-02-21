@@ -1,17 +1,20 @@
-import { Resolver, Query } from 'type-graphql';
+import { Resolver, Query, Authorized } from 'type-graphql'
 
-import { Vault } from '../entities/vault';
-import { InjectRepository } from 'typeorm-typedi-extensions';
-import { Repository } from 'typeorm';
-import { Service } from 'typedi';
+import { Vault } from '../entities/vault'
+import { InjectRepository } from 'typeorm-typedi-extensions'
+import { Repository } from 'typeorm'
+import { Service } from 'typedi'
 
 @Service()
-@Resolver(of => Vault)
+@Resolver((of) => Vault)
 export class VaultResolver {
-	constructor(@InjectRepository(Vault) private readonly vaultRepository: Repository<Vault>) {}
+  constructor(
+    @InjectRepository(Vault) private readonly vaultRepository: Repository<Vault>
+  ) {}
 
-	@Query((returns) => Vault)
-	vault(): Promise<Vault> {
-		return this.vaultRepository.findOne();
-	}
+  @Authorized()
+  @Query((returns) => Vault)
+  vault(): Promise<Vault> {
+    return this.vaultRepository.findOne()
+  }
 }
